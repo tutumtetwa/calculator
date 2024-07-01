@@ -1,16 +1,19 @@
-import unittest
-from calc import Calc
+name: Tests
+on: push
 
-class TestCalc(unittest.TestCase):
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-    def setUp(self):
-        self.calc = Calc()
+      - name: Setup python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.11.3
 
-    def test_add(self):
-        self.assertEqual(self.calc.add(2, 3), 5)
+      - name: Install tools
+        run: python -m pip install --upgrade pip pytest
 
-    def test_sub(self):
-        self.assertEqual(self.calc.sub(2, 3), -1)
-
-    def test_mul(self):
-        self.assertEqual(self.calc.mul(2, 3), 6)
+      - name: Test with unittest
+        run: python3 -m unittest test.py
