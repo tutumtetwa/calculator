@@ -1,19 +1,16 @@
-name: Check Style
-on: push
+import unittest
+from calc import Calc
 
-jobs:
-  check-style:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+class TestCalc(unittest.TestCase):
 
-      - name: Setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.11.3
+    def setUp(self):
+        self.calc = Calc()
 
-      - name: Install tools
-        run: python -m pip install --upgrade pip pycodestyle
+    def test_add(self):
+        self.assertEqual(self.calc.add(2, 3), 5)
 
-      - name: Check Style
-        run: pycodestyle --first *.py
+    def test_sub(self):
+        self.assertEqual(self.calc.sub(2, 3), -1)
+
+    def test_mul(self):
+        self.assertEqual(self.calc.mul(2, 3), 6)
